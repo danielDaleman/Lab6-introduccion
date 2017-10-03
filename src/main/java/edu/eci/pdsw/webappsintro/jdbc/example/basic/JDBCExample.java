@@ -83,11 +83,32 @@ public class JDBCExample {
         //Crear preparedStatement
         //Asignar parámetros
         //usar 'execute'
-
-        
+        PreparedStatement updateProducto = null;
+        String updateString = "INSERT INTO ORD_PRODUCTOS" + "(codigo,nombre,precio) VALUES" + "(?,?,?)";
+                
+        try {
+            
+        con.setAutoCommit(false);
+        updateProducto = con.prepareStatement(updateString);        
+        updateProducto.setInt(1, codigo);
+        updateProducto.setString(2, nombre);
+        updateProducto.setInt(3, precio);        
+        updateProducto.executeUpdate();
         con.commit();
         
+    } catch (SQLException e ) {                
+            System.out.println("Paila");
+    } finally {
+        if (updateProducto != null) {
+            updateProducto.close();
+        }
+        if(con != null){
+            updateProducto.close();
+        }
     }
+ 
+ }
+
     
     /**
      * Consultar los nombres de los productos asociados a un pedido
